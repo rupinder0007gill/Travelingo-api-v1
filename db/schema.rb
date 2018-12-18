@@ -37,7 +37,8 @@ ActiveRecord::Schema.define(version: 2018_12_18_104828) do
     t.string "last_name"
     t.string "dob"
     t.string "email"
-    t.string "mobile"
+    t.string "mobile_phone"
+    t.string "avatar"
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

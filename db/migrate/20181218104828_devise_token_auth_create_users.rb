@@ -41,7 +41,8 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
       t.string :last_name
       t.string :dob
       t.string :email
-      t.string :mobile
+      t.string :mobile_phone
+      t.string :avatar
 
       ## Tokens
       t.json :tokens
