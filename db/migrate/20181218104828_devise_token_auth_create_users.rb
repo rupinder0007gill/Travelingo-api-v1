@@ -8,7 +8,6 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
 
       ## Database authenticatable
       t.string :encrypted_password, :null => false, :default => ""
-      t.string :magic_link, :null => false, :default => ""
 
       ## Recoverable
       t.string   :reset_password_token
@@ -47,6 +46,11 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
       ## Tokens
       t.json :tokens
 
+      ## Magic Link
+      t.string :magic_link
+      t.string :magic_link_token
+      t.string :magic_link_key
+
       t.timestamps
     end
 
@@ -54,6 +58,9 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
     add_index :users, [:uid, :provider],     unique: true
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token,   unique: true
+    add_index :users, :magic_link,   unique: true
+    add_index :users, :magic_link_token,   unique: true
+    add_index :users, :magic_link_key,   unique: true
     # add_index :users, :unlock_token,       unique: true
   end
 end
