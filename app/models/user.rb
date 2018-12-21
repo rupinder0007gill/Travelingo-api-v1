@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
 
   def send_confirmation_mail
     from = Email.new(email: 'no-reply@travelingo.com')
-    to = Email.new(email: 'sumit.yuvasoft131@gmail.com')
+    to = Email.new(email: self.email)
     subject = 'Email confirmation'
     content = Content.new(type: 'text/plain', value: 'Change this content and include a magic link for login process.')
     mail = Mail.new(from, subject, to, content)
