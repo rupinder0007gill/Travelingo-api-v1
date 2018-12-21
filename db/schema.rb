@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_20_082842) do
+ActiveRecord::Schema.define(version: 2018_12_18_104828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 2018_12_20_082842) do
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "magic_link", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.boolean "allow_password_change", default: false
@@ -40,12 +39,16 @@ ActiveRecord::Schema.define(version: 2018_12_20_082842) do
     t.string "mobile_phone"
     t.string "avatar"
     t.json "tokens"
+    t.text "magic_link"
+    t.text "magic_link_token"
+    t.text "magic_link_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "magic_link_token"
-    t.string "magic_link_key"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["magic_link"], name: "index_users_on_magic_link", unique: true
+    t.index ["magic_link_key"], name: "index_users_on_magic_link_key", unique: true
+    t.index ["magic_link_token"], name: "index_users_on_magic_link_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end

@@ -47,9 +47,9 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
       t.json :tokens
 
       ## Magic Link
-      t.string :magic_link
-      t.string :magic_link_token
-      t.string :magic_link_key
+      t.text :magic_link
+      t.text :magic_link_token
+      t.text :magic_link_key
 
       t.timestamps
     end
