@@ -23,6 +23,8 @@ public/uploads/*
 test/*
 tmp/*
 vendor/*
+app/assets/javascripts/api/*
+app/assets/stylesheets/api/*
 
 /node_modules
 /yarn-error.log
