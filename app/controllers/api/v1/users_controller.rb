@@ -45,7 +45,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def render_create_success
-    data = resource_data(resource_json: @resource.token_validation_response)
+    data = @resource.token_validation_response
     data.delete("magic_link")
     data.delete("magic_link_token")
     data.delete("magic_link_key")

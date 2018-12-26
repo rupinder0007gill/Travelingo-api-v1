@@ -67,7 +67,8 @@ class User < ActiveRecord::Base
     mail = SendGrid::Mail.new
     mail.from = Email.new(email: 'no-reply@travelingo.com')
     mail.subject = 'Login confirmation'
-    to = "sumit.yuvasoft131@gmail.com"
+    # to = "sumit.yuvasoft131@gmail.com"
+    to = self.email
     personalization = Personalization.new
     personalization.add_to(Email.new(email: to))
     personalization.subject = 'Login confirmation'
