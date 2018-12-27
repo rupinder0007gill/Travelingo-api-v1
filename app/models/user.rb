@@ -99,9 +99,13 @@ class User < ActiveRecord::Base
 
   protected
 
-    def password_required?
-      false
-    end
+  def password_required?
+    false
+  end
+
+  def new_sendgrid_request
+    SendGrid::API.new(api_key: Rails.application.secrets[:sendgrid][:key])
+  end
 
 end
 
