@@ -52,7 +52,7 @@ class Api::V1::UsersController < ApplicationController
 
     render json: {
       status: "success",
-      data: data.merge({auth_token: @client_id})
+      data: data.merge({client_id: @client_id, token: @token})
     }
   end
 
