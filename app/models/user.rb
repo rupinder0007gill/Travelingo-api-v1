@@ -91,9 +91,9 @@ class User < ActiveRecord::Base
 
   protected
 
-  def password_required?
-    false
-  end
+    def password_required?
+      false
+    end
 
 end
 
