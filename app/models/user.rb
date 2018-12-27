@@ -18,9 +18,9 @@ class User < ActiveRecord::Base
   # virtual attribute to skip password validation while saving
   attr_accessor :skip_password_validation
 
-  def login_procedure(api_call)
+  def login_procedure(api_call=nil)
     set_password
-    set_magic_link(api_call)
+    set_magic_link(api_call, 'login')
   end
 
   def verify_login_procedure(magic_link)
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
 
   private
 
-  def set_magic_link(api_call=nil)
+  def set_magic_link(api_call=nil, type=nil)
     len   = ActiveSupport::MessageEncryptor.key_len
     salt  = SecureRandom.hex len
     key   = ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key salt, len
@@ -52,33 +52,34 @@ class User < ActiveRecord::Base
       self.update(magic_link_token: nil)
     end
     api_call = "http://localhost:3000/api/v1/users/login_verify" if api_call.blank?
-    login_mail(encrypted_data, api_call)
+    login_mail(encrypted_data, api_call, type)
   end
 
   def send_confirmation_mail
-    from = Email.new(email: 'no-reply@travelingo.com')
-    to = Email.new(email: self.email)
-    subject = 'Email confirmation'
-    content = Content.new(type: 'text/html', value: 'Change this content and include a magic link for login process.')
-    mail = Mail.new(from, subject, to, content)
-
-    response = new_sendgrid_request.client.mail._('send').post(request_body: mail.to_json)
+    api_call = nil
+    set_password
+    set_magic_link(api_call, 'signup')
   end
 
-  def login_mail(encrypted_data, api_call)
+  def login_mail(encrypted_data, api_call, type)
+    to = self.email
     mail = SendGrid::Mail.new
     mail.from = Email.new(email: 'no-reply@travelingo.com')
     mail.subject = 'Login confirmation'
-    # to = "sumit.yuvasoft131@gmail.com"
-    to = self.email
     personalization = Personalization.new
     personalization.add_to(Email.new(email: to))
-    personalization.subject = 'Login confirmation'
+    personalization.subject = type.eql?('login') ? 'Login confirmation' : 'Email Confirmation'
     mail.add_personalization(personalization)
 
     api_call = api_call + "?magic_link=#{encrypted_data}&email=#{to}"
 
-    content = Content.new(type: 'text/html', value: "<html><body>Login with this link <br> <a method='post' href='" + api_call + "'>Click here</a></body></html>")
+    value = if type.eql?('login')
+              "<html><body>Login with this link <br> <a method='post' href='" + api_call + "'>Click here</a></body></html>"
+            else
+              "<html><body>Confirm your account and login with this link <br> <a method='post' href='" + api_call + "'>Click here</a></body></html>"
+            end
+
+    content = Content.new(type: 'text/html', value: value)
 
     mail.add_content(content)
     response = new_sendgrid_request.client.mail._('send').post(request_body: mail.to_json)

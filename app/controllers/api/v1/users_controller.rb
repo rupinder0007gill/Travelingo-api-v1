@@ -14,53 +14,54 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def login_verify
-    user = User.find_by(email: params[:email].downcase)
-    magic_link = params[:magic_link]
-    @resource = user
+    # user = User.find_by(email: params[:email].downcase)
+    # magic_link = params[:magic_link]
+    # @resource = user
 
-    if @resource.present?
-      if magic_link.present?
-        response = @resource.verify_login_procedure(magic_link)
-        if response
-          @client_id, @token = @resource.create_token
-          @resource.save
-          sign_in(:user, @resource, store: false, bypass: false)
-          @resource.set_password
-          render_create_success
-        else
-          @msg = "Bad Magic Link"
-          render_create_error
-        end
-      else
-        @msg = "Missing Magic Link"
-        render_create_error
-      end
-    else
-      @msg = "Missing Email"
-      render_create_error
-    end
-  end
-
-  def render_create_success
-    data = @resource.token_validation_response
-    data.delete("magic_link")
-    data.delete("magic_link_token")
-    data.delete("magic_link_key")
-
+    # if @resource.present?
+    #   if magic_link.present?
+    #     response = @resource.verify_login_procedure(magic_link)
+    #     if response
+    #       @client_id, @token, @expiry = @resource.create_token
+    #       @resource.save
+    #       sign_in(:user, @resource, store: false, bypass: false)
+    #       @resource.set_password
+    #       render_create_success
+    #     else
+    #       @msg = "Bad Magic Link"
+    #       render_create_error
+    #     end
+    #   else
+    #     @msg = "Missing Magic Link"
+    #     render_create_error
+    #   end
+    # else
+    #   @msg = "Missing Email"
+    #   render_create_error
+    # end
     render json: {
       status: "success",
-      data: data.merge({client_id: @client_id, token: @token})
+      data: { magic_link: params[:magic_link], uid: params[:email] }
     }
   end
 
-  def render_create_error
-    render json: {
-      status: "error",
-      msg: @msg
-    }
-  end
+  # def render_create_success
+  #   data = @resource.token_validation_response
+  #   data.delete("magic_link")
+  #   data.delete("magic_link_token")
+  #   data.delete("magic_link_key")
+
+  #   render json: {
+  #     status: "success",
+  #     data: data.merge({client_id: @client_id, token: @token, expiry: @expiry})
+  #   }
+  # end
+
+  # def render_create_error
+  #   render json: {
+  #     status: "error",
+  #     msg: @msg
+  #   }
+  # end
 
 end
-# magic_link=KsCJSt2EXH5ChZN24DVu6bHqdEA=--kzX36gwNzHVqPC/r--1lt9b9iuuTTGdBTfO2oCUA==&email=ravinayuvasoft229@gmail.com
-
-# http://localhost:3000/api/v1/users/login_verify?magic_link=LBPm0/wVypCkgpbC5n6Xdijuxfs=--rv114hl9L7IeWcpz--zAWE0xivdMzL74SwMjcBxA==&email=ravinayuvasoft229@gmail.com

@@ -41,7 +41,7 @@ class Api::V1::SessionsController < DeviseTokenAuth::SessionsController
 
     render json: {
       status: "success",
-      data: data.merge({client_id: @client_id, token: @token})
+      data: data
     }
   end
 

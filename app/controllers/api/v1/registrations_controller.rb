@@ -13,5 +13,7 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
     }
   end
 
+  def update
+    super
+  end
 end
-# "auth_token":"G2ciOxWrKJ0GiylnBCR4OQ"
