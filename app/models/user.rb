@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
+  has_many :trips
+
   before_create :set_password
   after_create :set_magic_link
   after_create :send_confirmation_mail
@@ -47,7 +49,7 @@ class User < ActiveRecord::Base
 
     self.magic_link_key = salt
     if self.save
-      self.update(magic_link_token: nil) 
+      self.update(magic_link_token: nil)
     end
     api_call = "http://localhost:3000/api/v1/users/login_verify" if api_call.blank?
     login_mail(encrypted_data, api_call)

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
           get :login_verify
         end
       end
+      resources :trips
     end
   end
 
