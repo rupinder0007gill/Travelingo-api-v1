@@ -7,7 +7,6 @@ class Api::V1::UsersController < ApplicationController
       @status = 'success'
       @msg = "Confirmation mail sent at #{user.email} with an Magic Link, check your email!"
     else
-      @status = 'error'
       @msg = "Email does not exist in out Database!"
     end
     render json: {
@@ -68,3 +67,6 @@ class Api::V1::UsersController < ApplicationController
   # end
 
 end
+# magic_link=KsCJSt2EXH5ChZN24DVu6bHqdEA=--kzX36gwNzHVqPC/r--1lt9b9iuuTTGdBTfO2oCUA==&email=ravinayuvasoft229@gmail.com
+
+# http://localhost:3000/api/v1/users/login_verify?magic_link=LBPm0/wVypCkgpbC5n6Xdijuxfs=--rv114hl9L7IeWcpz--zAWE0xivdMzL74SwMjcBxA==&email=ravinayuvasoft229@gmail.com
