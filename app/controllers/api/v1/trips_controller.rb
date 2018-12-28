@@ -1,9 +1,9 @@
 class Api::V1::TripsController < ApplicationController
-
+  before_action :authenticate_api_v1_user!
   before_action :find_trip, only: [:show,:update,:destroy]
 
   def index
-    @trips = Trip.all
+    @trips = current_api_v1_user.trips
     render json: @trips
   end
 
@@ -12,8 +12,7 @@ class Api::V1::TripsController < ApplicationController
   end
 
   def create
-    @user = User.find_by_uid(request.headers["HTTP_UID"])
-    @trip = @user.trips.new(trip_params)
+    @trip = current_api_v1_user.trips.new(trip_params)
     if @trip.save
       render json: {
         status: 'success',
@@ -50,7 +49,7 @@ class Api::V1::TripsController < ApplicationController
   private
 
   def find_trip
-    @trip = Trip.find(params[:id])
+    @trip = current_api_v1_user.trips.find(params[:id])
   end
 
   def trip_params
