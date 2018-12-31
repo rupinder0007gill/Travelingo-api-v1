@@ -42,6 +42,8 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.2]
       t.string :email
       t.string :mobile_phone
       t.string :avatar
+      t.string :avatarURL
+      t.boolean :email_verified, default: false
 
       ## Tokens
       t.json :tokens

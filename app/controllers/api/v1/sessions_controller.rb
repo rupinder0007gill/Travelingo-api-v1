@@ -15,6 +15,7 @@ class Api::V1::SessionsController < DeviseTokenAuth::SessionsController
         response = @resource.verify_login_procedure(magic_link)
         if response
           @client_id, @token = @resource.create_token
+          @resource.email_verified = true unless @resource.email_verified
           @resource.save
           sign_in(:user, @resource, store: false, bypass: false)
           @resource.set_password
