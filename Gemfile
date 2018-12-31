@@ -42,6 +42,7 @@ gem 'awesome_print', '~> 1.8'
 gem 'carrierwave'
 gem 'sendgrid-ruby'
 gem "rolify"
+gem 'rails-erd', group: :development
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
