@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_31_110602) do
+ActiveRecord::Schema.define(version: 2018_12_31_110032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,13 +20,6 @@ ActiveRecord::Schema.define(version: 2018_12_31_110602) do
     t.string "image"
     t.string "season"
     t.integer "trip_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "photos", force: :cascade do |t|
-    t.string "image"
-    t.integer "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -45,6 +38,7 @@ ActiveRecord::Schema.define(version: 2018_12_31_110602) do
     t.date "start_date"
     t.date "end_date"
     t.integer "duration"
+    t.string "policy"
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -74,14 +68,14 @@ ActiveRecord::Schema.define(version: 2018_12_31_110602) do
     t.string "email"
     t.string "mobile_phone"
     t.string "avatar"
+    t.string "avatarURL"
+    t.boolean "email_verified", default: false
     t.json "tokens"
     t.text "magic_link"
     t.text "magic_link_token"
     t.text "magic_link_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "email_verified", default: false
-    t.string "avatarURL"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["magic_link"], name: "index_users_on_magic_link", unique: true
