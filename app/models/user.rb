@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable,
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
   require 'sendgrid-ruby'
@@ -12,10 +12,17 @@ class User < ActiveRecord::Base
 
   has_many :trips
 
+  after_create :add_default_role
+
   after_create :send_confirmation_mail
 
   # virtual attribute to skip password validation while saving
   attr_accessor :skip_password_validation
+
+  def add_default_role
+    self.add_role :primary_traveler
+    self.save
+  end
 
   def decrypt_magic_link(magic_link)
     magic_link = magic_link.gsub(' ', '+')
