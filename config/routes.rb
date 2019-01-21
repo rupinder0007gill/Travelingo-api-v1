@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations:      'api/v1/registrations',
-        sessions:           'api/v1/sessions'
+        sessions:           'api/v1/sessions',
       }
       resources :users, only: [] do
         collection do
@@ -13,6 +13,11 @@ Rails.application.routes.draw do
         end
       end
       resources :trips
+      resources :omniauths, only: [] do
+        collection do
+          post :facebook_login
+        end
+      end
     end
   end
 end
