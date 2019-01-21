@@ -9,7 +9,7 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
     render json: {
       status: 'success',
       data: { id: resource_data['uid'], first_name: resource_data['first_name'], last_name: resource_data['last_name'] },
-      msg: "You have sign up successfully, Confirmation mail sent at EMAIL_ID with an Magic Link, please check your email!."
+      msg: "You have sign up successfully, Confirmation mail sent at #{resource_data['email']} with an Magic Link, please check your email!."
     }
   end
 
