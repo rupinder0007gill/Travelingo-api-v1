@@ -12,6 +12,7 @@ class Api::V1::UsersController < ApplicationController
     end
     render json: {
       status: @status,
+      code: @code,
       msg: @msg
     }
   end
