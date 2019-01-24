@@ -7,7 +7,8 @@ class Api::V1::UsersController < ApplicationController
       @status = 'success'
       @msg = "Confirmation mail sent at #{user.email} with an Magic Link, check your email!"
     else
-      @msg = "Email does not exist in out Database!"
+      @status = 'error'
+      @msg = "Email does not exist in out Database."
     end
     render json: {
       status: @status,
